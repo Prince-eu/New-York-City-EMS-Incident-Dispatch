@@ -45,11 +45,13 @@ Factors such as incident type, call-to-dispatch rates, and travel durations may 
 - **pandas** - Data manipulation and analysis
 - **NumPy** - Numerical computing
 - **Matplotlib** - Data visualization
-- **scikit-learn** - Machine learning algorithms including:
-  - Decision Tree Classifier/Regressor
-  - Random Forest Classifier/Regressor
-  - K-Nearest Neighbors (KNN)
-  - Cross-validation and model evaluation
+- **scikit-learn** - Machine learning and statistical modeling:
+  - Linear Regression (OLS)
+  - Lasso, Ridge, and Elastic Net regularization
+  - Cross-validation (10-fold CV)
+  - Model evaluation metrics (RMSE, R-squared)
+  - Logistic Regression (classification)
+  - Decision Trees and Random Forests (exploratory analysis)
 - **Deepnote** - Collaborative data science notebook environment
 
 ## Files in this Repository
@@ -77,45 +79,69 @@ Factors such as incident type, call-to-dispatch rates, and travel durations may 
 
 ### 2. Data Preprocessing & Feature Engineering
 - Handling missing values and data quality issues
-- Creation of derived features (e.g., time of day categories, incident urgency levels)
-- Categorical encoding for machine learning models
+- Creation of derived features for temporal analysis
+- Variable selection and multicollinearity assessment
 - Feature scaling and normalization where appropriate
 
-### 3. Predictive Modeling
+### 3. Supervised Machine Learning - Regression Models
 
-**Classification Models** (predicting incident categories and response priorities):
-- **Decision Tree Classifier** - Baseline model for interpretability
-- **Random Forest Classifier** - Ensemble model achieving **99.97% accuracy**
-- Cross-validation with multiple folds for robust performance evaluation
+**Primary Analysis: Linear Regression Approaches**
 
-**Regression Models** (predicting continuous response times):
-- **Random Forest Regressor** - Predicting number of incidents and response times
-- Performance measured using Root Mean Squared Error (RMSE)
-- Achieved RMSE of approximately 2067 incidents (prediction error metric)
+1. **Ordinary Least Squares (OLS) Regression**
+   - Baseline model establishing linear relationships between predictors and response times
+   - Identification of significant predictors and their coefficients
 
-**Model Comparison:**
-- Random Forest Classifier: 99.97% accuracy
-- Decision Tree Classifier: 99.82% accuracy
-- Random Forest demonstrates superior performance over single decision trees
+2. **Stepwise Forward Regression**
+   - Sequential variable selection to identify the most predictive features
+   - Building models incrementally based on statistical significance
 
-### 4. Model Evaluation
-- Cross-validation scoring to prevent overfitting
-- Comparison of multiple algorithms to identify best-performing models
+3. **Stepwise RMSE-Based Selection**
+   - Variable selection optimized for Root Mean Squared Error minimization
+   - Focus on predictive accuracy rather than statistical significance alone
+
+**Advanced Regression with 10-Fold Cross-Validation:**
+
+4. **Regularized Regression Models**
+   - **Lasso Regression** - L1 regularization for feature selection and sparsity
+   - **Ridge Regression** - L2 regularization to handle multicollinearity
+   - **Elastic Net** - Combined L1/L2 regularization balancing feature selection and stability
+   - Cross-validation used to optimize regularization parameters and prevent overfitting
+
+5. **Predictive Modeling**
+   - Using optimized models to make predictions on emergency response times
+   - Model evaluation based on RMSE and cross-validated performance metrics
+
+### 4. Appendix: Exploratory Non-Linear Methods
+
+**Additional techniques explored to assess non-linear patterns:**
+
+- **Logistic Regression** - Classification of incident priority levels
+- **Decision Trees** - Tree-based models for interpretable non-linear patterns
+- **Tree-based prediction** - Fitting Number of Incidents using decision trees
+- **Random Forests** - Ensemble methods for both classification and regression
+  - Random Forest Regressor with RMSE of approximately 2067 for incident prediction
+
+### 5. Model Evaluation
+- 10-fold cross-validation for robust performance estimation
+- RMSE as primary metric for regression model comparison
 - Feature importance analysis to identify key predictors of response times
+- Comparison across linear and non-linear approaches
 
 ## Key Findings
 
-1. **Model Performance Excellence:** Random Forest models achieved exceptional predictive accuracy (99.97%), demonstrating the feasibility of using machine learning to predict emergency response patterns and optimize resource allocation.
+1. **Regularized Regression Performance:** Lasso, Ridge, and Elastic Net models with 10-fold cross-validation provided robust predictions of emergency response times, with regularization effectively handling multicollinearity and preventing overfitting in the presence of numerous predictors.
 
-2. **Agency-Specific Patterns:** Significant variations exist in response times across EMS, FDNY, and NYPD for similar incident types, suggesting opportunities for cross-agency coordination improvements.
+2. **Stepwise Regression Insights:** RMSE-based stepwise selection identified the most predictive features for response times, balancing model complexity with predictive accuracy and revealing which factors most significantly impact emergency response efficiency.
 
-3. **Incident Type Impact:** Life-threatening emergencies (e.g., cardiac arrests, major fires) show different response patterns compared to non-critical incidents, validating current prioritization systems but revealing potential for optimization.
+3. **Agency-Specific Patterns:** Significant variations exist in response times across EMS, FDNY, and NYPD for similar incident types, suggesting opportunities for cross-agency coordination improvements.
 
-4. **Temporal Trends:** Response times vary significantly by time of day, day of week, and season, indicating the need for dynamic resource allocation strategies that adapt to predictable demand patterns.
+4. **Incident Type Impact:** Life-threatening emergencies (e.g., cardiac arrests, major fires) show different response patterns compared to non-critical incidents, validating current prioritization systems but revealing potential for optimization.
 
-5. **Dispatch Efficiency:** Call-to-dispatch time and travel time are critical predictors of overall response time, highlighting these as key leverage points for operational improvements.
+5. **Temporal Trends:** Response times vary significantly by time of day, day of week, and season, indicating the need for dynamic resource allocation strategies that adapt to predictable demand patterns.
 
-6. **Predictive Capability:** The high accuracy of machine learning models demonstrates that response times can be reliably predicted based on incident characteristics, enabling proactive resource planning and dispatch optimization.
+6. **Dispatch Efficiency:** Call-to-dispatch time and travel time emerged as critical predictors of overall response time across all regression models, highlighting these as key leverage points for operational improvements.
+
+7. **Non-Linear Model Exploration:** Appendix analysis with Decision Trees and Random Forests (achieving 99.97% classification accuracy) demonstrated that while non-linear methods can capture complex patterns, the primary regression approaches provided more interpretable and actionable insights for operational optimization.
 
 ## Actionable Recommendations
 
@@ -124,6 +150,7 @@ Factors such as incident type, call-to-dispatch rates, and travel durations may 
 3. **Enhance resource allocation** during peak demand hours identified through temporal analysis
 4. **Reduce dispatch delays** by streamlining call processing and routing procedures
 5. **Conduct targeted training** for dispatch operators based on incident type patterns that show prolonged response times
+
 
 ## Future Work
 
@@ -138,3 +165,9 @@ Factors such as incident type, call-to-dispatch rates, and travel durations may 
 -  Prince Enyiorji
 -  Tsungai Tsambatare
 -  Sharon Paruwani
+
+## Acknowledgments
+
+- **Data Source:** City of New York Mayor's Office of Operations
+- **Platform:** Analysis conducted using Deepnote collaborative environment
+- **Dataset:** Available at [Data.gov - 911 End-to-End Data](https://catalog.data.gov/dataset/911-end-to-end-data)
